@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String         @id @default(uuid())
+  name           String?
+  email          String?        @unique
+  image          String?
+  emailVerified  DateTime?
+  accounts       Account[]
+  sessions       Session[]
+  beat           Beat[]
+  collaborations Collaborator[]
+}
+
+model Account {
+  id                String  @id @default(uuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model VerificationToken {
+  id         String   @id @default(uuid())
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Beat {
+  id            String         @id @default(uuid())
+  title         String
+  description   String?
+  bpm           Int            @default(120)
+  key           String?
+  genre         String?
+  isPublished   Boolean        @default(false)
+  userId        String
+  user          User           @relation(fields: [userId], references: [id])
+  tracks        Track[]
+  collaborators Collaborator[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt()
+}
+
+model Track {
+  id        String   @id @default(uuid())
+  beatId    String
+  type      String //e.g.: drum, bass, melody and shi
+  audioUrl  String
+  order     Int
+  volume    Float    @default(1.0)
+  pan       Float    @default(0.0)
+  mute      Boolean  @default(false)
+  solo      Boolean  @default(false)
+  beat      Beat     @relation(fields: [beatId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+model Collaborator {
+  id        String           @id @default(uuid())
+  beatId    String
+  userId    String
+  role      CollaboratorRole @default(viewer)
+  user      User             @relation(fields: [userId], references: [id])
+  beat      Beat             @relation(fields: [beatId], references: [id])
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt()
+
+  @@unique([beatId, userId])
+}
+
+enum CollaboratorRole {
+  viewer
+  editor
+  owner
+}
