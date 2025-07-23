@@ -61,3 +61,63 @@ export async function getAllBeats(userId: string) {
     throw new Error("Failed to fetch beats");
   }
 }
+
+export async function getBeatById(beatId: string) {
+  try {
+    const beat = await prisma.beat.findUnique({
+      where: {
+        id: beatId,
+      },
+    });
+
+    if (!beat) {
+      throw new Error("Beat not found");
+    }
+
+    return beat;
+  } catch (error) {
+    console.error("Error fetching beat by ID:", error);
+    throw new Error("Failed to fetch beat");
+  }
+}
+
+export async function updateBeat(
+  beatId: string,
+  data: Partial<{
+    title: string;
+    description?: string;
+    bpm: number;
+    key?: string;
+    isPublished: boolean;
+    genre?: string;
+  }>
+) {
+  try {
+    const updatedBeat = await prisma.beat.update({
+      where: {
+        id: beatId,
+      },
+      data,
+    });
+
+    return updatedBeat;
+  } catch (error) {
+    console.error("Error updating beat:", error);
+    throw new Error("Failed to update beat");
+  }
+}
+
+export async function deleteBeat(beatId: string) {
+  try {
+    const deletedBeat = await prisma.beat.delete({
+      where: {
+        id: beatId,
+      },
+    });
+
+    return deletedBeat;
+  } catch (error) {
+    console.error("Error deleting beat:", error);
+    throw new Error("Failed to delete beat");
+  }
+}
