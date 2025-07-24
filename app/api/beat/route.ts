@@ -7,7 +7,7 @@ export async function POST(req: Request) {
   try {
     const beat = await createBeat(body);
     return NextResponse.json(beat, {
-      status: 201,
+      status: 200,
     });
   } catch (error) {
     console.error("Error in POST request:", error);
@@ -16,14 +16,8 @@ export async function POST(req: Request) {
 }
 
 export async function GET(req: Request) {
-  const userId = req.headers.get("user-id");
-
-  if (!userId) {
-    return new Response("User ID is required", { status: 400 });
-  }
-
   try {
-    const beats = await getAllBeats(userId);
+    const beats = await getAllBeats();
     return NextResponse.json(beats, {
       status: 200,
     });

@@ -12,9 +12,9 @@ export async function createBeat(data: {
   userId: string;
 }) {
   const session = await getServerSession(authOptions);
-  const userId = session?.user?.id;
+  const userEmail = session?.user?.email;
 
-  if (!session?.user?.email) {
+  if (!userEmail) {
     throw new Error("User is not authenticated");
   }
 
@@ -23,11 +23,9 @@ export async function createBeat(data: {
       data: {
         user: {
           connect: {
-            email: session?.user?.email || "",
+            email: userEmail,
           },
         },
-        // userId: data.userId || session.user.id,
-        userId,
         title: data.title,
         description: data.description || "",
         bpm: data.bpm,
@@ -44,11 +42,25 @@ export async function createBeat(data: {
   }
 }
 
-export async function getAllBeats(userId: string) {
+export async function getAllBeats() {
   try {
+    const session = await getServerSession(authOptions);
+    const userEmail = session?.user?.email;
+
+    if (!userEmail) {
+      throw new Error("Please log in first");
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email: userEmail },
+    });
+    if (!user) {
+      throw new Error("User not found");
+    }
+
     const beats = await prisma.beat.findMany({
       where: {
-        userId,
+        userId: user.id,
       },
       orderBy: {
         createdAt: "desc",
