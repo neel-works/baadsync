@@ -80,6 +80,15 @@ export async function getBeatById(beatId: string) {
       where: {
         id: beatId,
       },
+      include: {
+        tracks: true,
+        collaborators: {
+          include: {
+            user: true,
+          },
+        },
+        user: true,
+      },
     });
 
     if (!beat) {

@@ -1,9 +1,9 @@
 "use client";
 
+import BeatList from "@/component/beat-list";
+import { fetchBeats } from "@/lib/actions/beat.actions";
+import { Beat } from "@/types/beat";
 import React, { useEffect, useState } from "react";
-import { fetchBeats } from "../../lib/actions/beat.actions";
-import BeatList from "../../component/beat-list";
-import { Beat } from "../../types/beat";
 
 function MyBeats() {
   const [beats, setBeats] = useState<Beat[]>([]);

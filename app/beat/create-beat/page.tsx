@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import CreateBeatForm from "../../component/create-beat-form";
+import CreateBeatForm from "../../../component/create-beat-form";
 
 function CreateBeat() {
   return (

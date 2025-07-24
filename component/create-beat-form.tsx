@@ -30,7 +30,7 @@ const CreateBeatForm: React.FC = () => {
         genre,
         isPublished,
       });
-      router.push("/my-beats");
+      router.push("/beat/my-beats");
     } catch (err) {
       setError("Error creating beat");
     } finally {

@@ -10,3 +10,8 @@ export const createBeat = async (beatData: Omit<Beat, "id">) => {
   const response = await axios.post("/api/beat", beatData);
   return response.data;
 };
+
+export const fetchBeatById = async (id: string): Promise<Beat> => {
+  const response = await axios.get(`/api/beat/${id}`);
+  return response.data;
+};
