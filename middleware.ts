@@ -18,5 +18,5 @@ export default withAuth(
 
 // Match only protected routes
 export const config = {
-  matcher: ["/", "/dashboard"],
+  matcher: ["/", "/dashboard", "/beat/:path*"],
 };

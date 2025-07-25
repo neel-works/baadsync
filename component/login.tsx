@@ -23,7 +23,11 @@ export default function Login() {
         </>
       ) : (
         <div className="flex flex-col">
-          <button onClick={() => signIn("github")}>Sign In with GitHub</button>
+          <button
+            onClick={() => signIn("github", { callbackUrl: "/dashboard" })}
+          >
+            Sign In with GitHub
+          </button>
           <button
             onClick={() => signIn("google", { callbackUrl: "/dashboard" })}
           >
