@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { Beat } from "@/types/beat";
 import { fetchBeatById } from "@/lib/actions/beat.actions";
 import BeatDetails from "@/component/beat-details";
+import AddTrackModal from "@/component/add-track-modal";
 
 function BeatEditorPage() {
   const [beat, setBeat] = useState<Beat | null>(null);
@@ -33,6 +34,7 @@ function BeatEditorPage() {
       {loading && <div>Loading...</div>}
       {error && <div className="text-red-500">{error}</div>}
       {!loading && !error && beat && <BeatDetails beat={beat} />}
+      <AddTrackModal beatId={beat?.id as string} />
     </div>
   );
 }
