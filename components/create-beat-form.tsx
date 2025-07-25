@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { createBeat } from "../lib/actions/beat.actions";
+import { createBeat } from "@/lib/actions/beat.actions";
 
 const defaultBpm = 120;
 
