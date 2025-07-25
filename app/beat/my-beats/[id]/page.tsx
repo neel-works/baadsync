@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import { Beat } from "@/types/beat";
 import { fetchBeatById } from "@/lib/actions/beat.actions";
-import BeatDetails from "@/component/beat-details";
-import AddTrackModal from "@/component/add-track-modal";
+import BeatDetails from "@/components/beat-details";
+import AddTrackModal from "@/components/add-track-modal";
 
 function BeatEditorPage() {
   const [beat, setBeat] = useState<Beat | null>(null);

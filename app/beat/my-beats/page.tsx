@@ -1,6 +1,6 @@
 "use client";
 
-import BeatList from "@/component/beat-list";
+import BeatList from "@/components/beat-list";
 import { fetchBeats } from "@/lib/actions/beat.actions";
 import { Beat } from "@/types/beat";
 import React, { useEffect, useState } from "react";
